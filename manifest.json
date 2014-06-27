@@ -1,0 +1,17 @@
+﻿{
+  "manifest_version": 2,
+
+  "name": "Multi-Search",
+  "description": "Use keyword 'multi' followed by your custom search keyword to search a list of sites for your term.",
+  "version": "1.0",
+  "minimum_chrome_version": "9",
+  "omnibox": { "keyword" : "multi" },
+  "options_page": "options.html",
+  
+  "permissions": ["storage"],
+  
+  "background": {
+    "scripts": ["event.js"],
+    "persistent": false
+  }
+}
