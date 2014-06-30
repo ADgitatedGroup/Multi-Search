@@ -2,7 +2,10 @@
 
 var list = document.getElementById("categories"); //get the HTML datalist from the page
 var textBox = document.getElementById("category"); //get the HTML input for the category string from the page
-var textArea = document.getElementById("sites"); //get the HTML input for the sites list from the page
+var sitesList = document.getElementById("sitesList"); //get List element containing sites
+
+var maxSites = 15;
+var siteCount = 0;
 
 // Saves options to chrome.storage
 function save_options() {
@@ -24,16 +27,17 @@ function removeSpaces(text) {
 }
 
 //save data to the array
-//saves category name / search keyword (text), html id of dropdown option for ease of use (id), and search sites list (sites)
+//saves category name / search keyword (text), html id of dropdown option for ease of use (id), and search sites list (iterated through sitesList)
 function save_cat() {
 	var input = textBox.value; //pull string from category text box
-	var sitesString = textArea.value; //pull string from sites text area
 	input = removeSpaces(input); //remove spaces from category list so can be used as keyword
 	if (input.length > 0) {
 		var newCat = document.createElement("option"); //create an HTML option element so input can be added to dropdown
 		newCat.id = "opt" + categories.length.toString(); //form a string to use as html id of option element. prefixes array position with "opt"
 		newCat.text = input; //string-removed category name gets saved as the new element's text
-		categories.push({"id" : newCat.id, "text" : newCat.text, "sites" : sitesString}); //save this data to the array
+		//categories.push({"id" : newCat.id, "text" : newCat.text, "sites" : sitesString}); //save this data to the array
+		//siteCount is id of most recent site input box
+		//pull from categories the last one saved? iterate from that to siteCount to add new sites to array
 		list.appendChild(newCat); //add the newly-created option element to the datalist so can be accessed again by dropdown
 	}	
 }
@@ -83,6 +87,38 @@ function selected_cat() {
 	}
 }
 
+function checkInputValue() {
+	if (this.value == "") {
+		if (this.id != "site0") {
+			console.log("emptied input");
+			removeSiteInput(this.id);
+		}
+	} else {
+		if (this.id == "site" + siteCount.toString() && siteCount < maxSites) {
+			console.log(this.id + " " + this.value);
+			addSiteInput();
+		}
+	}
+}
+
+function addSiteInput() {
+	var item = document.createElement("LI");
+	var input = document.createElement("input");
+	var idPostfix = ++siteCount;
+	input.id = "site" + idPostfix.toString();
+	input.type = "text";
+	input.autocomplete = "off";
+	input.placeholder="Site URL with '%s' where the search term belongs";
+	input.addEventListener("input", checkInputValue);
+	item.appendChild(input);
+	sitesList.appendChild(item);
+}
+
+//problem: ids still increment when adding so max can be reached when only 2 inputs if removed a bunch
+function removeSiteInput(htmlID) {
+	sitesList.removeChild(document.getElementById(htmlID).parentNode);
+}
+
 function log_cats() {
 	console.log(categories);
 }
@@ -98,4 +134,6 @@ document.getElementById('removeCat').addEventListener('click', remove_cat);
 document.getElementById('saveSites').addEventListener('click', save_cat);
 document.getElementById('saveOptions').addEventListener('click', save_options);
 document.getElementById('logCats').addEventListener('click', log_cats);
+//document.getElementById('addSiteInput').addEventListener('click', addSiteInput);
 document.getElementById('clear').addEventListener('click', clearAll);
+document.getElementById("site0").addEventListener("input", checkInputValue);

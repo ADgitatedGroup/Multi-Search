@@ -2,15 +2,20 @@
 <html><title>Input Multi-Search terms and sites</title></head>
 <body>
 <p>Lorem Ipsum whatever</p>
-<!--<input id="addCat" type="text" required>
-<button id="saveCat">Save Category</button>
-<br>-->
-<input list="categories" id="category">
+<input list="categories" id="category" autocomplete="off">
 <datalist id="categories"></datalist>
 <button id="removeCat">Remove Category</button>
 <br>
 <!-- use unordered list of text areas instead? -->
-<textarea id="sites"></textarea>
+<!-- <textarea id="sites"></textarea> -->
+<ul id="sitesList">
+	<li>
+		<input id="site0" type="text" autocomplete="off" placeholder="Site URL with '%s' where the search term belongs"></input>
+		<!--<button id="remSite0" class="removeButton">-</button>-->
+	</li>
+</ul>
+<button id="addSiteInput">+</button>
+<br>
 <button id="saveSites">Save Sites List</button>
 <div id="status"></div>
 <button id="saveOptions">Save Options</button>
