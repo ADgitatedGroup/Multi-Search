@@ -13,5 +13,20 @@
   "background": {
     "scripts": ["event.js"],
     "persistent": false
+  },
+  
+  "icons": {
+	"16": "MS 16.png",
+	"128": "MS 16.png",
+    "32": "MS 16.png",
+    "48": "MS 16.png"
+  },
+  
+  "browser_action": {
+	"default_icon": {
+		"19": "MS 19.png",
+		"38": "MS 38.png"
+	},
+	"default_title": "Multi-Search (options)"
   }
 }
